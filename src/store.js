@@ -18,7 +18,7 @@ export default new Vuex.Store({
      * @param {object} state
      */
     getStorageData(state) {
-      state.storageData = localStorage.getItem(STORAGE_KEY) || [];
+      state.storageData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     },
 
     /**

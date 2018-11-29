@@ -8,7 +8,13 @@
     <modal v-if="showModal" @close="showModal = false">
       <h3 slot="header">Создать новую задачу</h3>
 
-      <input v-model="title" :class="{error: isEmpty}" type="text" slot="body">
+      <input
+          v-model="title"
+          :class="{error: isEmpty}"
+          slot="body"
+          v-focus
+          type="text"
+      >
 
       <button slot="footer" @click="close">
         ок
@@ -30,6 +36,14 @@
   export default {
     name: 'app',
 
+    directives: {
+      focus: {
+        inserted: function (el) {
+          el.focus()
+        }
+      }
+    },
+
     components: { DateView, List, Modal },
 
     data() {
@@ -39,10 +53,6 @@
         title: '',
         isEmpty: false
       }
-    },
-
-    mounted() {
-
     },
 
     methods: {

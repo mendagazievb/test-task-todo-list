@@ -59,8 +59,14 @@
 
     watch: {
       storageData(data) {
-        // debugger
+        // При изменении данных сохраняем их в local storage
+        this.setStorageData();
       }
+    },
+
+    mounted() {
+      // Вызываем метод для получения списка данных с local storage
+      this.getStorageData();
     },
 
     methods: {
@@ -80,6 +86,7 @@
 
       checkTodo(index, e) {
         this.completeTodo({ index, isCompleted: e.target.checked })
+        this.setStorageData();
       },
 
       /**
