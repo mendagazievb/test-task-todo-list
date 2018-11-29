@@ -1,9 +1,23 @@
 <template>
   <div id="app" class="container">
     <date-view />
-    <list />
+    <list @copy="showDialog = true"/>
 
-    <button @click="pushTodo({ value: '', checked: false, edit: true })">Создать задачу</button>
+    <button @click="showModal = true">Создать задачу</button>
+
+    <modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">Создать новую задачу</h3>
+
+      <input v-model="title" :class="{error: isEmpty}" type="text" slot="body">
+
+      <button slot="footer" @click="close">
+        ок
+      </button>
+    </modal>
+
+    <modal v-if="showDialog" @close="showDialog = false">
+      <h3 slot="header">Текст скопирован в буфер</h3>
+    </modal>
   </div>
 </template>
 
@@ -11,16 +25,44 @@
   import { mapMutations } from 'vuex';
   import DateView from './components/DateView';
   import List from './components/List';
+  import Modal from './components/Modal';
 
   export default {
     name: 'app',
 
-    components: {DateView, List},
+    components: { DateView, List, Modal },
+
+    data() {
+      return {
+        showModal: false,
+        showDialog: false,
+        title: '',
+        isEmpty: false
+      }
+    },
+
+    mounted() {
+
+    },
 
     methods: {
       ...mapMutations([
         'pushTodo'
-      ])
+      ]),
+
+      close() {
+        this.isEmpty = false;
+        let temp = { title: this.title, isEdit: false, completed: false };
+
+        this.title.length
+          ? this.pushTodo(temp)
+          : this.isEmpty = true;
+
+        if (!this.isEmpty) {
+          this.title = '';
+          this.showModal = false;
+        }
+      }
     }
   }
 </script>

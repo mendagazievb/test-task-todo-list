@@ -1,30 +1,34 @@
 <template>
   <ul :class="list.list">
-    <li v-for="(todo, index) in storageData" :class="list.item">
+    <li
+        v-for="(todo, index) in storageData"
+        :key="`todo-${index}`"
+        :class="list.item"
+    >
       <div v-show="!todo.edit">
         <p
             @click="editTodo({ index, isEdit: true })"
-            :class="{[list.done]: todo.checked}"
+            :class="{[list.done]: todo.completed}"
         >
-          {{ todo.value }}
+          {{ todo.title }}
         </p>
 
-        <button @click="copyBuffer(todo.value)">Скопировать текст в буфер</button>
+        <button @click="copyBuffer(todo.title)">Скопировать текст в буфер</button>
         <button @click="removeTodo(index)">Удалить задачу</button>
       </div>
 
       <input
           v-if="todo.edit"
-          v-model="todo.value"
-          @blur="saveTodo(todo.value, index)"
-          @keyup.enter="saveTodo(todo.value, index)"
+          v-model="todo.title"
+          @blur="saveTodo(todo.title, index)"
+          @keyup.enter="saveTodo(todo.title, index)"
           v-focus
           type="text"
       >
 
       <label>
         <input
-            :checked="todo.checked"
+            :checked="todo.completed"
             @change="checkTodo(index, $event)"
             type="checkbox"
         >
@@ -53,6 +57,12 @@
       ])
     },
 
+    watch: {
+      storageData(data) {
+        // debugger
+      }
+    },
+
     methods: {
       ...mapMutations([
         'getStorageData',
@@ -69,7 +79,7 @@
       },
 
       checkTodo(index, e) {
-        this.completeTodo({ index, isCheck: e.target.checked })
+        this.completeTodo({ index, isCompleted: e.target.checked })
       },
 
       /**
@@ -78,7 +88,7 @@
        */
       copyBuffer(text) {
         navigator.clipboard.writeText(text)
-          .then(() => alert('succeful'))
+          .then(() => this.$emit('copy'))
           .catch(err => console.error(err))
       },
     }

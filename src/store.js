@@ -11,6 +11,7 @@ export default new Vuex.Store({
     DATES,
     storageData: []
   },
+
   mutations: {
     /**
      * Получаем сохранненые данные в локальном хранилище
@@ -51,10 +52,10 @@ export default new Vuex.Store({
      * Отмечаем выполненую задачу
      * @param {object} state
      * @param {number} index индекс объекта задачи в массиве
-     * @param {boolean} isCheck выполненная задача
+     * @param {boolean} isCompleted выполненная задача
      */
-    completeTodo(state, { index, isCheck }) {
-      state.storageData[index].checked = isCheck;
+    completeTodo(state, { index, isCompleted }) {
+      state.storageData[index].completed = isCompleted;
     },
 
     /**
