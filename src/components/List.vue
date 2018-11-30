@@ -20,8 +20,8 @@
       <input
           v-if="todo.edit"
           v-model="todo.title"
-          @blur="saveTodo(todo.title, index)"
-          @keyup.enter="saveTodo(todo.title, index)"
+          @blur="checkTitle(todo.title, index)"
+          @keyup.enter="checkTitle(todo.title, index)"
           v-focus
           type="text"
       >
@@ -29,7 +29,7 @@
       <label>
         <input
             :checked="todo.completed"
-            @change="checkTodo(index, $event)"
+            @change="setCompleted(index, $event)"
             type="checkbox"
         >
       </label>
@@ -78,14 +78,24 @@
         'completeTodo'
       ]),
 
-      saveTodo(value, index) {
-        value.trim().length
+      /**
+       * Проверяем полученный текст
+       * @param {string} title текст
+       * @param {number} index индекс задачи в списке
+       */
+      checkTitle(title, index) {
+        title.trim().length
           ? this.editTodo({ index, isEdit: false })
           : this.removeTodo(index);
       },
 
-      checkTodo(index, e) {
-        this.completeTodo({ index, isCompleted: e.target.checked })
+      /**
+       * Отмечаем выполненность задачи, сохраняем в local storage
+       * @param {number} index индекс задачи в списке
+       * @param {object} e event
+       */
+      setCompleted(index, e) {
+        this.completeTodo({ index, isCompleted: e.target.checked });
         this.setStorageData();
       },
 

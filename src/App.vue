@@ -62,7 +62,7 @@
 
       close() {
         this.isEmpty = false;
-        let temp = { title: this.title, isEdit: false, completed: false };
+        let temp = { title: this.title, edit: false, completed: false };
 
         this.title.length
           ? this.pushTodo(temp)
