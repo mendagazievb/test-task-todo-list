@@ -1,7 +1,7 @@
 <template>
   <transition :enter-class="modal.enter" :leave-class="modal.leaveActive">
     <div :class="modal.mask">
-      <div :class="modal.container">
+      <div :class="[modal.container, {[modal.containerWidth]: fixedWidthContainer}]">
         <button
             :class="modal.buttonClose"
             @click="$emit('close')"
@@ -35,6 +35,17 @@
   </transition>
 </template>
 
+<script>
+  export default {
+    props: {
+      fixedWidthContainer: {
+        type: Boolean,
+        default: false
+      }
+    }
+  }
+</script>
+
 <style lang="postcss" module="modal">
   .mask {
     position: fixed;
@@ -48,6 +59,16 @@
     align-items: center;
     justify-content: center;
     transition: opacity .3s ease;
+
+    & .containerWidth {
+      width: 50%;
+    }
+
+    @media (320px <= width <= 500px) {
+      & .containerWidth {
+        width: 98%;
+      }
+    }
   }
 
   .container {
@@ -58,6 +79,18 @@
     border-radius: 1rem;
     box-sizing: border-box;
     transition: all .3s ease;
+  }
+
+  @media (768px <= width <= 992px) {
+    .container {
+      width: 80%;
+    }
+  }
+
+  @media (320px <= width <= 768px) {
+    .container {
+      width: 98%;
+    }
   }
 
   .header {
@@ -115,8 +148,4 @@
   .leaveActive .container {
     transform: scale(1.1);
   }
-</style>
-
-<style>
-
 </style>

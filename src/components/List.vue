@@ -216,6 +216,10 @@
       border-color: var(--green-color);
     }
 
+    & .checkbox:focus ~ .checkboxMask {
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, .5);
+    }
+
     & .checkbox:checked ~ .checkboxMask {
       border-color: var(--green-color);
 

@@ -17,7 +17,7 @@
           v-model="title"
           :class="{error: isEmpty}"
           slot="body"
-          class="textarea grow"
+          class="textarea grow textarea--rad"
           v-focus>
       </textarea>
 
@@ -26,7 +26,7 @@
       </button>
     </modal>
 
-    <modal v-if="showDialog" @close="showDialog = false">
+    <modal v-if="showDialog" @close="showDialog = false" :fixed-width-container="true">
       <p slot="body">Текст скопирован в буфер</p>
     </modal>
   </div>
@@ -88,4 +88,33 @@
   @import "styles/button.css";
   @import "styles/input.css";
   @import "styles/base.css";
+
+  @media (768px <= width <= 992px) {
+    .container {
+      width: 80%;
+    }
+  }
+
+  @media (320px <= width <= 425px) {
+    :root {
+      --main-font-size: 2rem;
+      --big-font-size: 6.5rem;
+      --mid-font-size: 2.2rem;
+    }
+
+    .button--big {
+      bottom: -5rem;
+      width: 10rem;
+      height: 10rem;
+      font-size: 4rem;
+    }
+  }
+
+  @media (320px <= width <= 768px) {
+    .container {
+      width: 98%;
+      margin: 1rem auto;
+      padding: 3rem 2rem;
+    }
+  }
 </style>

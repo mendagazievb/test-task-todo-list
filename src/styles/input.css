@@ -3,3 +3,7 @@
   font-family: var(--font-book);
   font-size: var(--main-color);
 }
+
+.textarea--rad {
+  border-radius: 4px;
+}
