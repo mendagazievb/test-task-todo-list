@@ -13,17 +13,19 @@
           {{ todo.title }}
         </p>
 
-        <span :class="list.btnInner">
+        <span :class="list.buttonInner">
           <button
-              :class="list.btn"
               @click="copyBuffer(todo.title)"
+              class="button"
+              :class="list.button"
               aria-label="copy title">
             <font-awesome-icon icon="copy" />
           </button>
 
           <button
-              :class="list.btn"
               @click="removeTodo(index)"
+              class="button"
+              :class="list.button"
               aria-label="remove todo">
             <font-awesome-icon icon="trash" />
           </button>
@@ -32,10 +34,11 @@
 
       <textarea
           v-if="todo.edit"
-          :class="list.text"
           v-model="todo.title"
           @blur="checkTitle(todo.title, index)"
           @keyup.enter="checkTitle(todo.title, index)"
+          :class="list.text"
+          class="textarea"
           rows="1"
           v-focus>
       </textarea>
@@ -134,6 +137,15 @@
     margin-bottom: 2rem;
     padding: 0;
     list-style-type: none;
+
+    & .button {
+      font-size: 1.5rem;
+      padding: 1rem 1.5rem;
+
+      &:first-child {
+        margin-right: .5rem;
+      }
+    }
   }
 
   .item {
@@ -159,7 +171,7 @@
     flex-grow: 1;
     cursor: pointer;
 
-    &:hover .btnInner {
+    &:hover .buttonInner {
       display: flex;
     }
 
@@ -170,21 +182,12 @@
     }
   }
 
-  .btnInner {
+  .buttonInner {
     position: absolute;
     top: 50%;
     right: 2rem;
     display: none;
     transform: translateY(-50%);
-  }
-
-  .btn {
-    font-size: 1.5rem;
-    padding: 1rem 1.5rem;
-
-    &:first-child {
-      margin-right: .5rem;
-    }
   }
 
   .completed {

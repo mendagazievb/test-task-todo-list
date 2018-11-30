@@ -4,7 +4,7 @@
     <list @copy="showDialog = true"/>
 
     <button
-        class="button--big"
+        class="button button--big"
         @click="showModal = true"
         aria-label="create todo">
       <font-awesome-icon icon="plus" />
@@ -13,15 +13,15 @@
     <modal v-if="showModal" @close="showModal = false">
       <h3 slot="header">Создать новую задачу</h3>
 
-      <input
+      <textarea
           v-model="title"
           :class="{error: isEmpty}"
           slot="body"
-          v-focus
-          type="text"
-      >
+          class="textarea grow"
+          v-focus>
+      </textarea>
 
-      <button slot="footer" @click="close">
+      <button class="button text-upper" slot="footer" @click="close">
         ок
       </button>
     </modal>

@@ -21,6 +21,14 @@ body {
   border-radius: 1rem;
 }
 
+.text-upper {
+  text-transform: uppercase;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
 b {
   font-weight: 500;
   color: #606473;

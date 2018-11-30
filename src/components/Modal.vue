@@ -2,8 +2,12 @@
   <transition :enter-class="modal.enter" :leave-class="modal.leaveActive">
     <div :class="modal.mask">
       <div :class="modal.container">
-        <button @click="$emit('close')">
-          закрыть
+        <button
+            :class="modal.buttonClose"
+            @click="$emit('close')"
+            aria-label="close"
+        >
+          <font-awesome-icon icon="plus" :transform="{ rotate: 45 }" />
         </button>
 
         <header :class="modal.header">
@@ -16,7 +20,11 @@
 
         <footer :class="modal.footer">
           <slot name="footer">
-            <button :class="modal.button" @click="$emit('close')">
+            <button
+                @click="$emit('close')"
+                :class="modal.button"
+                class="button"
+            >
               ок
             </button>
           </slot>
@@ -26,12 +34,6 @@
     </div>
   </transition>
 </template>
-
-<script>
-  export default {
-
-  }
-</script>
 
 <style lang="postcss" module="modal">
   .mask {
@@ -49,42 +51,55 @@
   }
 
   .container {
-    box-sizing: border-box;
-    max-width: 75rem;
-    padding: 7rem 5rem;
+    position: relative;
+    width: 50%;
+    padding: 5rem;
     background-color: #fff;
-    border-radius: 4px;
+    border-radius: 1rem;
+    box-sizing: border-box;
     transition: all .3s ease;
   }
 
   .header {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .body {
+    display: flex;
+    margin-bottom: 3rem;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: center;
   }
 
   .header h3 {
     margin: 0;
-    font-size: 33px;
-    color: #3e434f;
-  }
-
-  .body {
-    margin-bottom: 2rem;
+    font-size: var(--main-font-size);
   }
 
   .button {
-    background-color:  #50e3a4;
-    padding: 10px 40px;
-    border: 0;
-    border-radius: 50px;
-    color: #fff;
-    box-shadow: 0 3px 10px 0 rgba(62, 192, 136, 0.8);
-    font-size: 30px;
     text-transform: uppercase;
-    cursor: pointer;
+  }
 
-    &:focus {
-      box-shadow: 0 0 5px rgba(81, 203, 238, 1);
-      /*outline: 0;*/
+  .buttonClose {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    background: transparent;
+    border: 5px solid var(--circle-color);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 2rem;
+    color: var(--circle-color);
+
+    &:hover {
+      color: #D7D8DB;
+      border-color: #D7D8DB;
     }
   }
 
