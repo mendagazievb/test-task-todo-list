@@ -1,4 +1,8 @@
-# test-task-todo-list
+# To-do list
+
+[demo](https://mendagazievb.github.io/todo/)
+
+![alt-text](./src/assets/screen.png)
 
 ## Project setup
 ```
@@ -14,16 +18,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
