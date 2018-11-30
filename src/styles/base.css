@@ -1,0 +1,31 @@
+html,
+body {
+  font-family: var(--font-book), system-ui;
+  font-size: var(--main-font-size);
+}
+
+body {
+  margin: 0;
+  color: var(--main-color);
+  background-color: var(--bg-color);
+}
+
+.container {
+  position: relative;
+  margin: 10rem auto;
+  padding: 5rem;
+  width: 50%;
+  background-color: var(--container-color);
+  box-sizing: border-box;
+  box-shadow: 0 6px 15px 0 rgba(207, 211, 218, 0.35);
+  border-radius: 1rem;
+}
+
+b {
+  font-weight: 500;
+  color: #606473;
+}
+
+p {
+  margin: 0;
+}

@@ -30,6 +30,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: var(--font-medium);
+    margin-bottom: 7rem;
   }
 
   .item {
@@ -41,13 +43,17 @@
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+
+    & span {
+      font-family: var(--font-book);
+    }
   }
 
   .itemPrimary {
-    font-size: 76px;
+    font-size: var(--big-font-size);
   }
 
   .itemAdd {
-    font-size: 26px;
+    font-size: var(--mid-font-size);
   }
 </style>

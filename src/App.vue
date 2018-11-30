@@ -3,7 +3,12 @@
     <date-view />
     <list @copy="showDialog = true"/>
 
-    <button @click="showModal = true">Создать задачу</button>
+    <button
+        class="button--big"
+        @click="showModal = true"
+        aria-label="create todo">
+      <font-awesome-icon icon="plus" />
+    </button>
 
     <modal v-if="showModal" @close="showModal = false">
       <h3 slot="header">Создать новую задачу</h3>
@@ -22,7 +27,7 @@
     </modal>
 
     <modal v-if="showDialog" @close="showDialog = false">
-      <h3 slot="header">Текст скопирован в буфер</h3>
+      <p slot="body">Текст скопирован в буфер</p>
     </modal>
   </div>
 </template>
@@ -78,23 +83,9 @@
 </script>
 
 <style lang="postcss">
-  html,
-  body {
-    font-family: system-ui;
-    background-color: #f0efe9;
-  }
-
-  .container {
-    margin: 0 auto;
-    padding: 100px;
-    max-width: 750px;
-    background-color: #fff;
-    box-sizing: border-box;
-    box-shadow: 0 6px 15px 0 rgba(207, 211, 218, 0.35);
-  }
-
-  b {
-    font-weight: 500;
-    color: #606473;
-  }
+  @import "styles/variables.css";
+  @import "styles/font.css";
+  @import "styles/button.css";
+  @import "styles/input.css";
+  @import "styles/base.css";
 </style>

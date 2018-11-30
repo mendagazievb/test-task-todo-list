@@ -1,0 +1,18 @@
+:root {
+  font-size: 62.5%;
+
+  --font-book: 'GothamRoundedBook';
+  --font-medium: 'GothamRoundedMedium';
+
+  --main-font-size: 2.4rem;
+  --big-font-size: 7.6rem;
+  --mid-font-size: 2.6rem;
+
+  --completed-color: #bdc0ca;
+  --main-color: #3e434f;
+  --green-color: #50e3a4;
+
+  --bg-color: #f0efe9;
+  --container-color: #fff;
+  --circle-color: #eef0f5;
+}

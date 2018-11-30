@@ -5,33 +5,49 @@
         :key="`todo-${index}`"
         :class="list.item"
     >
-      <div v-show="!todo.edit">
+      <div v-show="!todo.edit" :class="list.itemInner">
         <p
             @click="editTodo({ index, isEdit: true })"
-            :class="{[list.done]: todo.completed}"
+            :class="{[list.completed]: todo.completed}"
         >
           {{ todo.title }}
         </p>
 
-        <button @click="copyBuffer(todo.title)">Скопировать текст в буфер</button>
-        <button @click="removeTodo(index)">Удалить задачу</button>
+        <span :class="list.btnInner">
+          <button
+              :class="list.btn"
+              @click="copyBuffer(todo.title)"
+              aria-label="copy title">
+            <font-awesome-icon icon="copy" />
+          </button>
+
+          <button
+              :class="list.btn"
+              @click="removeTodo(index)"
+              aria-label="remove todo">
+            <font-awesome-icon icon="trash" />
+          </button>
+        </span>
       </div>
 
-      <input
+      <textarea
           v-if="todo.edit"
+          :class="list.text"
           v-model="todo.title"
           @blur="checkTitle(todo.title, index)"
           @keyup.enter="checkTitle(todo.title, index)"
-          v-focus
-          type="text"
-      >
+          rows="1"
+          v-focus>
+      </textarea>
 
-      <label>
+      <label :class="list.checkboxInner">
         <input
+            :class="[list.visuallyHidden, list.checkbox]"
             :checked="todo.completed"
             @change="setCompleted(index, $event)"
             type="checkbox"
         >
+        <span :class="list.checkboxMask"></span>
       </label>
     </li>
   </ul>
@@ -115,15 +131,113 @@
 <style lang="postcss" module="list">
   .list {
     margin: 0;
+    margin-bottom: 2rem;
     padding: 0;
     list-style-type: none;
   }
 
   .item {
     display: flex;
+    margin-bottom: 3rem;
   }
 
-  .done {
-    color: darkred;
+  .text {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 2rem;
+    border: 0;
+    border-radius: .4rem;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, .5);
+    }
+  }
+
+  .itemInner {
+    position: relative;
+    flex-grow: 1;
+    cursor: pointer;
+
+    &:hover .btnInner {
+      display: flex;
+    }
+
+    & p {
+      padding: .5rem 0;
+      padding-right: 2rem;
+      word-break: break-all;
+    }
+  }
+
+  .btnInner {
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    display: none;
+    transform: translateY(-50%);
+  }
+
+  .btn {
+    font-size: 1.5rem;
+    padding: 1rem 1.5rem;
+
+    &:first-child {
+      margin-right: .5rem;
+    }
+  }
+
+  .completed {
+    color: var(--completed-color);
+  }
+
+  .visuallyHidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+  }
+
+  .checkboxInner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-right: 5.4rem;
+    cursor: pointer;
+
+    &:hover .checkboxMask {
+      border-color: var(--green-color);
+    }
+
+    & .checkbox:checked ~ .checkboxMask {
+      border-color: var(--green-color);
+
+      &::after {
+        position: absolute;
+      }
+    }
+
+    & .checkboxMask {
+      position: absolute;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      border: 5px solid #eef0f5;
+      
+      &::after {
+        content: '';
+        top: 50%;
+        left: 50%;
+        width: 2rem;
+        height: 1.5rem;
+        transform: translate(-50%, -50%);
+        background: #fff url(../assets/checked.png) no-repeat;
+        background-size: cover;
+      }
+    }
   }
 </style>

@@ -50,20 +50,25 @@
 
   .container {
     box-sizing: border-box;
-    max-width: 750px;
-    padding: 100px;
+    max-width: 75rem;
+    padding: 7rem 5rem;
     background-color: #fff;
     border-radius: 4px;
     transition: all .3s ease;
   }
 
+  .header {
+    margin-bottom: 2rem;
+  }
+
   .header h3 {
+    margin: 0;
     font-size: 33px;
     color: #3e434f;
   }
 
   .body {
-    margin: 20px 0;
+    margin-bottom: 2rem;
   }
 
   .button {
