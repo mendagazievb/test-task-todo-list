@@ -58,6 +58,7 @@
 
 <script>
   import { mapState, mapMutations } from 'vuex';
+  import { fallbackCopyTextToClipboard } from '../utils';
 
   export default {
     name: 'list',
@@ -123,6 +124,11 @@
        * @param {string} text текст
        */
       copyBuffer(text) {
+        if (!navigator.clipboard) {
+          fallbackCopyTextToClipboard(text);
+          return;
+        }
+
         navigator.clipboard.writeText(text)
           .then(() => this.$emit('copy'))
           .catch(err => console.error(err))

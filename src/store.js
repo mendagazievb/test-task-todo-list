@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import DATES from './utils';
+import { DATES } from './utils';
 
 Vue.use(Vuex);
 
