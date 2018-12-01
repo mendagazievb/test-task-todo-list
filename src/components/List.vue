@@ -207,8 +207,6 @@
 
   .checkboxInner {
     position: relative;
-    display: flex;
-    align-items: center;
     padding-right: 5.4rem;
     cursor: pointer;
 
@@ -230,8 +228,11 @@
 
     & .checkboxMask {
       position: absolute;
+      top: 50%;
+      right: 0;
       width: 3rem;
       height: 3rem;
+      transform: translateY(-50%);
       border-radius: 50%;
       border: 5px solid #eef0f5;
       
