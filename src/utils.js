@@ -9,7 +9,7 @@ export const DATES = {
   dayOfWeek: moment().format('dddd')
 };
 
-export const fallbackCopyTextToClipboard = (text) => {
+export function fallbackCopyTextToClipboard(text) {
   let textArea = document.createElement("textarea");
   textArea.value = text;
   document.body.appendChild(textArea);
@@ -26,4 +26,4 @@ export const fallbackCopyTextToClipboard = (text) => {
   }
 
   document.body.removeChild(textArea);
-};
+}

@@ -125,7 +125,7 @@
        */
       copyBuffer(text) {
         if (!navigator.clipboard) {
-          fallbackCopyTextToClipboard(text);
+          fallbackCopyTextToClipboard.call(this, text);
           return;
         }
 
