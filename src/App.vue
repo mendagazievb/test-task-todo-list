@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
+  import { mapMutations, mapActions } from 'vuex';
   import DateView from './components/DateView';
   import List from './components/List';
   import Modal from './components/Modal';
@@ -65,14 +65,20 @@
         'pushTodo'
       ]),
 
-      close() {
-        this.isEmpty = false;
-        let temp = { title: this.title, edit: false, completed: false };
+      ...mapActions([
+        'sendData'
+      ]),
 
+      close() {
+        // Обнуляем свойство
+        this.isEmpty = false;
+
+        // Проверяем на пустое поле, если все ок, то добавлем задачу
         this.title.length
-          ? this.pushTodo(temp)
+          ? this.sendData(this.title)
           : this.isEmpty = true;
 
+        // Если в поле что-то введенно, то сбрасываем следущие свойства
         if (!this.isEmpty) {
           this.title = '';
           this.showModal = false;

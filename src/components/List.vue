@@ -1,8 +1,8 @@
 <template>
   <ul :class="list.list">
     <li
-        v-for="(todo, index) in storageData"
-        :key="`todo-${index}`"
+        v-for="(todo, index) in data"
+        :key="`todo-${todo.id}`"
         :class="list.item"
     >
       <div v-show="!todo.edit" :class="list.itemInner">
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
+  import { mapState, mapMutations, mapActions } from 'vuex';
   import { fallbackCopyTextToClipboard } from '../utils';
 
   export default {
@@ -73,20 +73,13 @@
 
     computed: {
       ...mapState([
-        'storageData'
+        'data'
       ])
     },
 
-    watch: {
-      storageData(data) {
-        // При изменении данных сохраняем их в local storage
-        this.setStorageData();
-      }
-    },
-
     mounted() {
-      // Вызываем метод для получения списка данных с local storage
-      this.getStorageData();
+      // Вызываем метод для получения списка данных
+      this.loadData();
     },
 
     methods: {
@@ -98,8 +91,13 @@
         'completeTodo'
       ]),
 
+      ...mapActions([
+        'loadData',
+      ]),
+
       /**
        * Проверяем полученный текст
+       *
        * @param {string} title текст
        * @param {number} index индекс задачи в списке
        */
@@ -111,16 +109,17 @@
 
       /**
        * Отмечаем выполненность задачи, сохраняем в local storage
+       *
        * @param {number} index индекс задачи в списке
        * @param {object} e event
        */
       setCompleted(index, e) {
         this.completeTodo({ index, isCompleted: e.target.checked });
-        this.setStorageData();
       },
 
       /**
        * Копируем текст в буфер
+       *
        * @param {string} text текст
        */
       copyBuffer(text) {
