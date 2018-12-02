@@ -4,6 +4,7 @@ import store from './store';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCopy, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import 'whatwg-fetch';
 
 library.add(faCopy, faTrash, faPlus);
 
