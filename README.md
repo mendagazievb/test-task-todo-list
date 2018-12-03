@@ -1,5 +1,7 @@
 # To-do list
 
+`Актуальная версия в ветке dev, здесь более старая с использованием localStorage`
+
 [demo](https://mendagazievb.github.io/todo/)
 
 ![alt-text](./src/assets/screen.png)
