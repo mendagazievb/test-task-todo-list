@@ -1,42 +1,55 @@
 <template>
   <div id="app" class="container">
     <date-view />
-    <list @copy="showDialog = true"/>
+
+    <list @copy="toggleModal({ key: 'Dialog', isShow: true })" />
 
     <button
         class="button button--big"
-        @click="showModal = true"
+        @click="toggleModal({ key: 'Modal', isShow: true })"
         aria-label="create todo">
       <font-awesome-icon icon="plus" />
     </button>
 
-    <modal v-if="showModal" @close="showModal = false">
+    <app-modal
+        v-if="isShowModal"
+        @close="toggleModal({ key: 'Modal', isShow: false })"
+    >
       <h3 slot="header">Создать новую задачу</h3>
 
       <textarea
           v-model="title"
-          :class="{error: isEmpty}"
+          :class="{ error: isEmptyTitleTodo }"
           slot="body"
           class="textarea grow textarea--rad"
           v-focus>
       </textarea>
 
-      <button class="button text-upper" slot="footer" @click="close">
+      <button
+          class="button text-upper"
+          slot="footer"
+          @click="close"
+      >
         ок
       </button>
-    </modal>
+    </app-modal>
 
-    <modal v-if="showDialog" @close="showDialog = false" :fixed-width-container="true">
+    <app-modal
+        v-if="isShowDialog"
+        @close="toggleModal({ key: 'Dialog', isShow: false })"
+        :fixed-width-container="true"
+    >
       <p slot="body">Текст скопирован в буфер</p>
-    </modal>
+    </app-modal>
+
   </div>
 </template>
 
 <script>
-  import { mapMutations, mapActions } from 'vuex';
+  import { mapState, mapMutations, mapActions } from 'vuex';
   import DateView from './components/DateView';
   import List from './components/List';
-  import Modal from './components/Modal';
+  import AppModal from './components/AppModal';
 
   export default {
     name: 'app',
@@ -49,20 +62,33 @@
       }
     },
 
-    components: { DateView, List, Modal },
+    components: { DateView, List, AppModal },
 
-    data() {
-      return {
-        showModal: false,
-        showDialog: false,
-        title: '',
-        isEmpty: false
+    computed: {
+      ...mapState([
+        'titleTodo',
+        'isEmptyTitleTodo',
+        'isShowModal',
+        'isShowDialog'
+      ]),
+
+      title: {
+        get() {
+          return this.titleTodo;
+        },
+
+        set(str) {
+          return this.updateTitle(str);
+        }
       }
     },
 
     methods: {
       ...mapMutations([
-        'pushTodo'
+        'pushTodo',
+        'toggleModal',
+        'changeIsEmptyTitle',
+        'updateTitle'
       ]),
 
       ...mapActions([
@@ -70,18 +96,17 @@
       ]),
 
       close() {
-        // Обнуляем свойство
-        this.isEmpty = false;
+        this.changeIsEmptyTitle(false); // Обнуляем свойство
 
         // Проверяем на пустое поле, если все ок, то добавлем задачу
         this.title.length
           ? this.sendData(this.title)
-          : this.isEmpty = true;
+          : this.changeIsEmptyTitle(true);
 
-        // Если в поле что-то введенно, то сбрасываем следущие свойства
-        if (!this.isEmpty) {
-          this.title = '';
-          this.showModal = false;
+        // Если в поле что-то введенно, то сбрасываем свойства
+        if (!this.isEmptyTitleTodo) {
+          this.updateTitle('');
+          this.toggleModal({ key: 'Modal', isShow: false })
         }
       }
     }

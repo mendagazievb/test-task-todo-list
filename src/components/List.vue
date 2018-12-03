@@ -78,14 +78,11 @@
     },
 
     mounted() {
-      // Вызываем метод для получения списка данных
-      this.loadData();
+      this.loadData(); // Вызываем метод для получения списка данных
     },
 
     methods: {
       ...mapMutations([
-        'getStorageData',
-        'setStorageData',
         'editTodo',
         'removeTodo',
         'completeTodo'

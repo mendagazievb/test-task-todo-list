@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { DATES } from './utils';
+import { DATES, handleErrors } from './utils';
 
 Vue.use(Vuex);
 
@@ -9,7 +9,11 @@ const API = 'https://jsonplaceholder.typicode.com/';
 export default new Vuex.Store({
   state: {
     DATES,
-    data: []
+    data: [],
+    titleTodo: '',
+    isEmptyTitleTodo: false,
+    isShowModal: false,
+    isShowDialog: false
   },
 
   mutations: {
@@ -27,7 +31,7 @@ export default new Vuex.Store({
      * Добавляем задачу
      *
      * @param {object} state
-     * @param {object} payload объект задачи
+     * @param {object} payload - объект задачи
      */
     pushTodo(state, payload) {
       state.data.push(payload)
@@ -37,8 +41,8 @@ export default new Vuex.Store({
      * Меняем свойство задачи
      *
      * @param {object} state
-     * @param {number} index индекс объекта задачи в массиве
-     * @param {boolean} isEdit редактируемая задача
+     * @param {number} index - индекс объекта задачи в массиве
+     * @param {boolean} isEdit - редактируемая задача
      */
     editTodo(state, { index, isEdit }) {
       state.data[index].edit = isEdit;
@@ -48,8 +52,8 @@ export default new Vuex.Store({
      * Отмечаем выполненую задачу
      *
      * @param {object} state
-     * @param {number} index индекс объекта задачи в массиве
-     * @param {boolean} isCompleted выполненная задача
+     * @param {number} index - индекс объекта задачи в массиве
+     * @param {boolean} isCompleted - выполненная задача
      */
     completeTodo(state, { index, isCompleted }) {
       state.data[index].completed = isCompleted;
@@ -59,11 +63,42 @@ export default new Vuex.Store({
      * Удаляем задачу
      *
      * @param {object} state
-     * @param {number} index индекс объекта задачи в массиве
+     * @param {number} index - индекс объекта задачи в массиве
      */
     removeTodo(state, index) {
       state.data.splice(index, 1)
-    }
+    },
+
+    /**
+     * Обновляем текст заголовока
+     *
+     * @param {object} state
+     * @param {string} str - текст заголовка
+     */
+    updateTitle(state, str) {
+      state.titleTodo = str;
+    },
+
+    /**
+     * Изменяем свойство отображения для модального окна
+     *
+     * @param {object} state
+     * @param {string} key - ключ свойства
+     * @param {boolean} isShow - отображение
+     */
+    toggleModal(state, { key, isShow }) {
+      state[`isShow${key}`] = isShow;
+    },
+
+    /**
+     * Изменяем свойство для проверки на пустой заголовок перед создание задачи
+     *
+     * @param {object} state
+     * @param {boolean} isEmpty - пустое значение
+     */
+    changeIsEmptyTitle(state, isEmpty) {
+      state.isEmptyTitleTodo = isEmpty;
+    },
   },
 
   actions: {
@@ -74,19 +109,20 @@ export default new Vuex.Store({
      */
     loadData({ commit }) {
       fetch(`${API}users/1/todos`, { method: 'get' })
-        .then(response => response.json())
+        .then(handleErrors)
         .then(response => {
           const customResponse = response.map(obj => ({ ...obj, edit: false }));
           commit('setData', customResponse);
         })
+        .catch(error => console.error(error))
     },
 
     /**
      * Отправляем запрос на создание задачи, в ответе получаем переданный объект со случайным id
      *
      * @param commit
-     * @param state
-     * @param {String} title заголовок задачи
+     * @param {object} state
+     * @param {String} title - заголовок задачи
      */
     sendData({ commit, state }, title) {
       let body = JSON.stringify({ title, completed: false, edit: false, userId: 1 });
@@ -98,8 +134,9 @@ export default new Vuex.Store({
         },
         body
       })
-        .then(response => response.json())
+        .then(handleErrors)
         .then(response => commit('pushTodo', response))
+        .catch(error => console.error(error))
     }
   }
 })
